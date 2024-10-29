@@ -1,4 +1,6 @@
 <?php
+
+
 // This is free and unencumbered software released into the public domain.
 /**
  * OpenPGP.php is a pure-PHP implementation of the OpenPGP Message Format
@@ -212,7 +214,7 @@ class OpenPGP_S2K {
  * @see http://tools.ietf.org/html/rfc4880#section-11
  * @see http://tools.ietf.org/html/rfc4880#section-11.3
  */
-class OpenPGP_Message implements IteratorAggregate, ArrayAccess {
+class OpenPGP_Message implements \IteratorAggregate, \ArrayAccess {
   public $uri = NULL;
   public $packets = array();
 
@@ -383,7 +385,7 @@ class OpenPGP_Message implements IteratorAggregate, ArrayAccess {
   // function getIterator(): \Traversable { // when php 5 support is dropped
   #[\ReturnTypeWillChange]
   function getIterator() {
-    return new ArrayIterator($this->packets);
+    return new \ArrayIterator($this->packets);
   }
 
   // ArrayAccess interface
@@ -1637,7 +1639,7 @@ class OpenPGP_SecretSubkeyPacket extends OpenPGP_SecretKeyPacket {
  *
  * @see http://tools.ietf.org/html/rfc4880#section-5.6
  */
-class OpenPGP_CompressedDataPacket extends OpenPGP_Packet implements IteratorAggregate, ArrayAccess {
+class OpenPGP_CompressedDataPacket extends OpenPGP_Packet implements \IteratorAggregate, \ArrayAccess {
   public $algorithm;
   /* see http://tools.ietf.org/html/rfc4880#section-9.3 */
   static $algorithms = array(0 => 'Uncompressed', 1 => 'ZIP', 2 => 'ZLIB', 3 => 'BZip2');

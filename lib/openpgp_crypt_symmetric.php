@@ -31,8 +31,11 @@ class OpenPGP_Crypt_Symmetric {
     }
 
     foreach($passphrases_and_keys as $pass) {
+        
       if($pass instanceof OpenPGP_PublicKeyPacket) {
-        if(!in_array($pass->algorithm, array(1,2,3))) throw new Exception("Only RSA keys are supported.");
+          
+        if(!in_array($pass->algorithm, array(1,2,3))) throw new \XF\PrintableException("Only RSA keys are supported." );
+      
         $crypt_rsa = new OpenPGP_Crypt_RSA($pass);
         $rsa = $crypt_rsa->public_key()->withPadding(CRYPT_RSA_ENCRYPTION_PKCS1 | CRYPT_RSA_SIGNATURE_PKCS1);
         $esk = $rsa->encrypt(chr($symmetric_algorithm) . $key . pack('n', self::checksum($key)));
