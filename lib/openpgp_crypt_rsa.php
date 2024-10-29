@@ -130,7 +130,9 @@ class OpenPGP_Crypt_RSA {
 
     $sig = new OpenPGP_SignaturePacket($message, 'RSA', strtoupper($hash));
     $sig->hashed_subpackets[] = new OpenPGP_SignaturePacket_IssuerPacket($keyid);
-    $sig->sign_data(array('RSA' => array($hash => function($data) use($key) {return array($key->sign($data));})));
+    $sig->sign_data(array('RSA' => array($hash => function($data) use($key) {
+      return [ "signed" => $key->sign($data), "hash" => $key->getHash()->hash($data) ];
+    })));
 
     return new OpenPGP_Message(array($sig, $message));
   }
@@ -162,7 +164,9 @@ class OpenPGP_Crypt_RSA {
       $packet[] = $sig;
     }
 
-    $sig->sign_data(array('RSA' => array($hash => function($data) use($key) {return array($key->sign($data));})));
+    $sig->sign_data(array('RSA' => array($hash => function($data) use($key) {
+      return [ "signed" => $key->sign($data), "hash" => $key->getHash()->hash($data) ];
+    })));
 
     return $packet;
   }
